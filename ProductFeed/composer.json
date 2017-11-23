@@ -1,0 +1,20 @@
+{
+    "name": "urbit/product-feed",
+    "type": "magento2-module",
+    "version": "1.0.2",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Urb-IT",
+            "email": "urbit@urb-it.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+   	 "files": [ "registration.php" ],
+	 "psr-4": {
+      	     "Urbit\\ProductFeed\\": ""
+    	 }
+    }
+}
