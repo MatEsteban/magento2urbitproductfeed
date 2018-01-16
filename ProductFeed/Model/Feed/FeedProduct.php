@@ -16,6 +16,7 @@ use Magento\Catalog\Api\ProductRepositoryInterface as ProductRepository;
 use Magento\Catalog\Model\Product\Type\AbstractType as ProductType;
 use Magento\Catalog\Model\Product\Type\Simple as ProductTypeSimple;
 use Urbit\ProductFeed\Model\Config\ConfigFactory;
+use Urbit\ProductFeed\Model\Config\Attributes\AttributeManager;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Calculation\Rate;
@@ -116,6 +117,11 @@ class FeedProduct
     protected $_taxCalculationRate;
 
     /**
+     * @var AttributeManager
+     */
+    protected $_attributeManager;
+
+    /**
      * FeedProduct constructor.
      * @param MagentoProduct $product
      * @param MagentoProductConfigurableFactory $configurableFactory
@@ -153,6 +159,7 @@ class FeedProduct
         $this->_scopeConfig = $scopeConfig;
         $this->_taxCalculation = $taxCalculation;
         $this->_taxCalculationRate = $taxCalculationRate;
+        $this->_attributeManager = AttributeManager::getInstance()->loadProduct($this->_product);
 
         $this->_product->setStoreId($this->_getStore()->getId());
     }
@@ -253,11 +260,7 @@ class FeedProduct
 
         $product = $this->_product;
 
-        $this->id = (string)$product->getId();
-        $this->name = $product->getName();
-        $this->description = $product->getDescription();
-        $this->link = $product->getProductUrl();
-
+        $this->processMainFields();
         $this->processPrices();
         $this->processCategories();
         $this->processImages();
@@ -266,6 +269,36 @@ class FeedProduct
         $this->processConfigurableFields();
 
         return true;
+    }
+
+    protected function processMainFields()
+    {
+        $fields = $this->_config->get("main_fields");
+
+        $id = $this->getAttributeValue($fields['id']);
+        if (empty($id)) {
+            $id = (string)$this->_product->getId();
+        }
+
+        $name = $this->getAttributeValue($fields['name']);
+        if (empty($id)) {
+            $name = $this->_product->getName();
+        }
+
+        $description = $this->getAttributeValue($fields['description']);
+        if (empty($id)) {
+            $description = $this->_product->getDescription();
+        }
+
+        $link = $this->getAttributeValue($fields['link']);
+        if (empty($id)) {
+            $link = $this->_product->getProductUrl();
+        }
+
+        $this->id = $id;
+        $this->name = $name;
+        $this->description = $description;
+        $this->link = $link;
     }
 
     /**
@@ -551,10 +584,6 @@ class FeedProduct
                 continue;
             }
 
-            if ($this->checkType($this->getAttributeType($attr)) !== 'string' && $attr == false) {
-                continue;
-            }
-
             $this->{$key} = $attr;
         }
     }
@@ -757,6 +786,10 @@ class FeedProduct
      */
     protected function getAttributeValue($name)
     {
+        if ($this->_attributeManager->checkAttributeCode($name)) {
+            return $this->_attributeManager->getAttributeValue($name);
+        }
+
         $attr = $this->getAttribute($name);
 
         if (!$attr) {

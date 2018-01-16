@@ -30,6 +30,29 @@
                 <field id="tag_value" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>"Tag" Attribute Value</label>
                 </field>
+                <field id="products" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Urbit\ProductFeed\Block\Adminhtml\System\Config\AdvancedMultiselect</frontend_model>
+                    <attribute type="shared">1</attribute>
+                </field>
+            </group>
+            <group id="main_fields" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Main Fields</label>
+                <field id="id" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Id</label>
+                    <source_model>Urbit\ProductFeed\Model\Config\Source\ProductAttributes</source_model>
+                </field>
+                <field id="name" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <source_model>Urbit\ProductFeed\Model\Config\Source\ProductAttributes</source_model>
+                </field>
+                <field id="description" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Description</label>
+                    <source_model>Urbit\ProductFeed\Model\Config\Source\ProductAttributes</source_model>
+                </field>
+                <field id="link" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Link</label>
+                    <source_model>Urbit\ProductFeed\Model\Config\Source\ProductAttributes</source_model>
+                </field>
             </group>
             <group id="fields" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Dimensions Attributes</label>
@@ -116,7 +139,7 @@
                 <field id="additional" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Additional attributes</label>
                     <comment>Additional product attributes to show in feed</comment>
-                    <source_model>Urbit\ProductFeed\Model\Config\Source\ProductAttributes</source_model>
+                    <source_model>Urbit\ProductFeed\Model\Config\Source\ProductStandardAttributes</source_model>
                 </field>
             </group>
         </section>
