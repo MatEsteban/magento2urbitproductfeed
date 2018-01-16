@@ -11,6 +11,12 @@
                 <tag_value></tag_value>
                 <products></products>
             </filter>
+            <main_fields>
+                <id></id>
+                <name></name>
+                <description></description>
+                <link></link>
+            </main_fields>
             <fields>
                 <dimention_height></dimention_height>
                 <dimention_length></dimention_length>

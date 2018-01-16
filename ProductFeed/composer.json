@@ -1,7 +1,7 @@
 {
     "name": "urbit/product-feed",
     "type": "magento2-module",
-    "version": "1.0.2",
+    "version": "1.0.3.1",
     "license": "GPLv3",
     "authors": [
         {
